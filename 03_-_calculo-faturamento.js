@@ -1,60 +1,26 @@
-function calcularEstatisticasFaturamento(vetorFaturamento) {
-  // Verifica se o vetor de faturamento está vazio
-  if (vetorFaturamento.length === 0) {
-    return "O vetor de faturamento está vazio.";
-  }
+const faturamentoMensal = {
+  faturamentoDiario: [1000, 1500, 800, 1200, 0, 0, 2000, 1800, 0, 2500, 3000, 3500, 0, 0, 4000, 4200, 0, 3800, 2000, 1500, 1000, 0, 0, 5000, 4500, 0, 0]
+};
 
-  var menorFaturamento = vetorFaturamento[0]; // Inicia com o primeiro valor do vetor
-  var maiorFaturamento = vetorFaturamento[0]; // Inicia com o primeiro valor do vetor
-  var somaFaturamento = 0; // Variável para calcular a soma do faturamento
-  var mediaMensal = 0; // Variável para calcular a média mensal do faturamento
+// Extrai os valores de faturamento diário do objeto JSON
+const faturamentoDiario = faturamentoMensal.faturamentoDiario;
 
-  // Percorre o vetor de faturamento para calcular as estatísticas
-  for (var i = 0; i < vetorFaturamento.length; i++) {
-    var faturamentoDiario = vetorFaturamento[i];
+// Calcula o menor valor de faturamento
+const menorValor = Math.min(...faturamentoDiario);
 
-    // Atualiza o menor valor de faturamento
-    if (faturamentoDiario < menorFaturamento) {
-      menorFaturamento = faturamentoDiario;
-    }
+// Calcula o maior valor de faturamento
+const maiorValor = Math.max(...faturamentoDiario);
 
-    // Atualiza o maior valor de faturamento
-    if (faturamentoDiario > maiorFaturamento) {
-      maiorFaturamento = faturamentoDiario;
-    }
+// Calcula a média mensal de faturamento, ignorando os dias sem faturamento
+const diasComFaturamento = faturamentoDiario.filter(valor => valor > 0);
+const mediaMensal = diasComFaturamento.reduce((soma, valor) => soma + valor, 0) / diasComFaturamento.length;
 
-    somaFaturamento += faturamentoDiario; // Acumula o faturamento para calcular a média mensal
-  }
+// Calcula o número de dias com faturamento superior à média mensal
+const diasAcimaMedia = faturamentoDiario.filter(valor => valor > mediaMensal).length;
 
-  mediaMensal = somaFaturamento / vetorFaturamento.length; // Calcula a média mensal
+// Exibe os resultados
+console.log("Menor valor de faturamento: R$", menorValor);
+console.log("Maior valor de faturamento: R$", maiorValor);
+console.log("Média mensal de faturamento: R$", mediaMensal);
+console.log("Número de dias com faturamento acima da média mensal:", diasAcimaMedia);
 
-  var numDiasSuperiorMedia = 0; // Variável para contar o número de dias com faturamento superior à média
-
-  // Percorre o vetor de faturamento novamente para contar o número de dias com faturamento superior à média
-  for (var j = 0; j < vetorFaturamento.length; j++) {
-    if (vetorFaturamento[j] > mediaMensal) {
-      numDiasSuperiorMedia++;
-    }
-  }
-
-  // Cria um objeto com as estatísticas calculadas
-  var estatisticas = {
-    menorFaturamento: menorFaturamento,
-    maiorFaturamento: maiorFaturamento,
-    mediaMensal: mediaMensal,
-    numDiasSuperiorMedia: numDiasSuperiorMedia
-  };
-
-  return estatisticas;
-}
-
-// Vetor de faturamento diário (pode ser substituído pelos dados reais da distribuidora)
-var vetorFaturamento = [1500, 2000, 1800, 2200, 2500, 1700, 1900];
-
-// Chama a função para calcular as estatísticas
-var estatisticas = calcularEstatisticasFaturamento(vetorFaturamento);
-
-// Exibe as estatísticas calculadas
-console.log("Menor faturamento: " + estatisticas.menorFaturamento);
-console.log("Maior faturamento: " + estatisticas.maiorFaturamento);
-console.log("Média mensal de faturamento: " + estatisticas.mediaM
